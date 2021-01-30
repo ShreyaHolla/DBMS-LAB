@@ -1,10 +1,14 @@
 Consider the schema for College Database:
 
 STUDENT(**USN**, SName, Address, Phone, Gender)
+
 SEMSEC(**SSID**, Sem, Sec)
+
 CLASS(**USN**, SSID)
+
 COURSE(**Subcode**, Title, Sem, Credits)
-IAMARKS(**USN**, **Subcode**,** SSID**, Test1, Test2, Test3, FinalIA) 
+
+IAMARKS(**USN**, **Subcode**,**SSID**, Test1, Test2, Test3, FinalIA) 
 
 Write SQL queries to
 1. List all the student details studying in fourth semester ‘C’ section.
