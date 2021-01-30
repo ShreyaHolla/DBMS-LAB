@@ -133,5 +133,86 @@ INSERT INTO WORKS_ON VALUES ('CSE04', 105,3);
 INSERT INTO WORKS_ON VALUES ('CSE05', 106,4);
 INSERT INTO WORKS_ON VALUES ('CSE06', 107,5);
 
-             
+ /* display project no where scott works as a manager and worker   */          
+SELECT p.PNO
+from project p, employee e, department d
+where e.lname='SCOTT' 
+and d.mgrssn=e.ssn 
+and d.dno=p.dno
+union
+Select p.pno
+from project p,employee e,works_on w
+where e.lname='SCOTT'
+and e.ssn=w.ssn
+and p.pno=w.pno;
 
+
+output:
+PNO
+103
+107
+             
+             
+/*b. Show the resulting salaries if every employee working on the ‘IoT’ project is given a 10 percent raise.*/
+select e.fname,e.lname,1.1*e.salary as incr
+from employee e,project p,works_on w
+where p.pname='IOT'
+and p.pno=w.pno 
+and w.ssn=e.ssn
+
+
+output:
+FNAME	     LNAME	incr
+JAMES	     SMITH	550000
+EDWARD	   SCOTT	550000
+NEHA	     SN	    880000            
+
+/* Find the sum of the salaries of all employees of the ‘Accounts’ department, 
+ as well as the maximum salary, the minimum salary, and the average salary in this department
+*/             
+             
+select sum(e.salary),min(e.salary),max(e.salary),avg(e.salary)
+from employee e,department d
+where d.dname='ACCOUNTS'
+and d.dno=e.dno;
+
+
+output:
+SUM(E.SALARY)	   MIN(E.SALARY)     	MAX(E.SALARY)   	AVG(E.SALARY)
+350000	         350000	            350000	          350000             
+
+             
+/* Retrieve the name of each employee who works on all the projects Controlled by department number 5 (use NOT EXISTS operator).*/ 
+ select e.fname,e.lname
+from employee e
+where not exists(
+(select pno
+from project 
+where dno=5)
+minus
+(select pno
+from works_on w
+where w.ssn=e.ssn));
+ 
+output:
+ FNAME	LNAME
+JAMES	SMITH
+
+ 
+/*For each department that has more than five employees, retrieve the department number and the number of its employees who are making more than Rs. 6, 00,000.
+ */
+select d.dno,count(*)
+from department d,employee e
+where d.dno=e.dno
+and e.salary>600000
+and e.dno in (select dno
+from employee 
+group by dno
+having count(*)>5)
+group by e.dno;
+ 
+ output:
+ 
+ DNO	COUNT(*)
+ 5	    3
+ 
