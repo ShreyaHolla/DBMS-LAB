@@ -12,7 +12,7 @@ create table iamarks(usn varchar(20),subcode varchar(200),ssid varchar(20),test1
 foreign key(usn) references student(usn),
 foreign key(ssid) references semsec(ssid),
 foreign key(subcode) references subject(subcode),
-primary key(usn,ssid));
+primary key(usn,subcode,ssid));
 
             
 /*INSERT INTO STUDENT*/
